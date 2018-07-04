@@ -2,7 +2,7 @@
 from jsonschema import validate
 import os
 import shutil
-from workflow import Workflow
+from .workflow import Workflow
 
 class Tool:
     def __init__(self,name):
