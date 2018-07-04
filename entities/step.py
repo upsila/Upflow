@@ -1,16 +1,13 @@
 
-import jsonschema
 from entities.tool import Tool
 
 class Step:
-    def __init__(self,workflow, tool, input, previous_step=None, next_step=None):
-        self._previous_step = previous_step
-        self._next_step = next_step
+    def __init__(self,workflow, tool, input):
+        self._workflow = workflow
         self._tool = tool
         self._input = input
         self._status = "queued"
         self._output = None
-        self._errors = []
         return
 
     def get_input(self):
@@ -21,6 +18,7 @@ class Step:
 
     def set_output(self, output):
         self._output = output
+        return
 
     def set_status(self, status):
         self._status = status
@@ -29,12 +27,17 @@ class Step:
     def get_status(self):
         return self._status
 
+    def set_workflow(self, workflow):
+        self._workflow = workflow
+        return
+
+    def get_workflow(self):
+        return self._workflow
+
     def run(self):
-        self._on_before_running()
         self.set_status('running')
         self.set_output(self._tool.run(self._input))
         self.set_status('completed')
-        self._on_after_running()
         return self
 
     def set_tool(self, tool):
@@ -47,18 +50,3 @@ class Step:
 
     def get_tool(self):
         return self._tool
-
-    def set_previous_step(self, previous_step):
-        self._previous_step = previous_step
-        return
-
-    def set_next_step(self, next_step):
-        self._next_step = next_step
-        return
-
-    def get_previous_step(self):
-        return self._previous_step
-
-    def get_next_step(self):
-        return self._next_step
-
