@@ -1,0 +1,11 @@
+properties:
+  jtracker_server:
+    type: string
+  queue_id:
+    type: string
+  username:
+    type: string
+required:
+  - jtracker_server
+  - queue_id
+  - username

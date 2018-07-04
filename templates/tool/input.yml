@@ -1,0 +1,5 @@
+properties:
+  prop1:
+    type: string
+required:
+  - prop1
