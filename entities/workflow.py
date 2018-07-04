@@ -15,7 +15,6 @@ class Workflow:
     def run(self, job_json):
         self._validate_input(job_json)
         output = self._run(job_json)
-        self._validate_output(output)
         return
 
     def _validate_input(self, job_json):
@@ -25,7 +24,7 @@ class Workflow:
         return
 
     def _validate_output(self, job_json):
-        __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(self.__class__.__module__.replace('.','/'))))
+        __location__ = os.path.realpath(os.path.join(os.getcwd(), self.__class__.__module__))
         validator = Workflow.yml_to_json_current_dir(os.path.join(__location__,"output.yml"))
         jsonschema.validate(job_json,validator)
 
