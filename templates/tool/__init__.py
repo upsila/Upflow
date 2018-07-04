@@ -11,3 +11,12 @@ class ToolName(Tool):
 
     def _run(self, input_data):
         return {}
+
+
+def main(argv):
+    tool = ToolName()
+    tool.run(argv)
+    return 0
+
+if __name__ == "__main__":
+    main()
