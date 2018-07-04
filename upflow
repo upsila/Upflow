@@ -6,6 +6,7 @@ import argparse
 from workflow import Main
 import json
 import sys
+import importlib
 
 
 def main():
@@ -19,8 +20,14 @@ def main():
 
     create_tool_parser = subparsers.add_parser('tool:create')
     create_tool_parser.add_argument('module', type=str, help="Module under which you want to create the tool")
-    create_tool_parser.add_argument('name', type=str, help="Name of the module")
+    create_tool_parser.add_argument('name', type=str, help="Name of the tool")
     create_tool_parser.set_defaults(function=create_tool)
+
+    run_tool_parser = subparsers.add_parser('tool:run')
+    run_tool_parser.add_argument('module', type=str, help="Module under which the tool exists")
+    run_tool_parser.add_argument('name', type=str, help="Name of the tool")
+    run_tool_parser.add_argument('job', type=str, help="Json file containing input for the tool")
+    run_tool_parser.set_defaults(function=run_tool)
 
     if len(sys.argv) == 1:
         parser.print_help()
@@ -40,6 +47,11 @@ def create_tool(args):
 def run_workflow(args):
     main_wf = Main()
     main_wf.run(json.load(args.job))
+    return
+
+def run_tool(args):
+    module = importlib.import_module(".".join(['tools',args.module,args.name]))
+    module.main(json.load(open(args.job,'r')))
     return
 
 if __name__ == "__main__":
