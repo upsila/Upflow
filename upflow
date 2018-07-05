@@ -34,8 +34,6 @@ def main():
         sys.exit(1)
 
     results = parser.parse_args()
-
-
     results.function(results)
 
     return 0
